@@ -1,0 +1,16 @@
+.loginCenter{
+  margin: 3rem;
+}
+
+.loginInput {
+  margin-top: 2rem;
+  width: inherit;
+}
+
+.loginDialog{
+  width: 50rem;
+}
+
+.loginCenter h3 {
+  color: #40a6ff;
+}
