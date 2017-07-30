@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import AuthBundle from './AuthBundle';
+import cookie from 'react-cookies';
 import {
   Route,
   Redirect
@@ -10,7 +11,7 @@ import {
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
-    AuthBundle.isAuthenticated ? (
+    cookie.load('userToken') != null ? (
         <Component {...props}/>
       ) : (
         <Redirect to={{

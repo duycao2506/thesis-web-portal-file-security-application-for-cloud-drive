@@ -10,6 +10,8 @@ import Login from '../Views/Login';
 import Signup from '../Views/Signup';
 import cookie from 'react-cookies';
 
+import SweetAlert from 'react-bootstrap-sweetalert';
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -28,12 +30,43 @@ class Home extends React.Component {
     this.toDashboard = this.toDashboard.bind(this);
     this.navigateLogin = this.navigateLogin.bind(this);
     this.signOut = this.signOut.bind(this);
+    this.registerCallback = this.registerCallback.bind(this);
+    this.doAlert = this.doAlert.bind(this);
+    this.hideAlert = this.hideAlert.bind(this);
+
 
 
   }
 
   componentDidMount(){
     this.setState({token: cookie.load('userToken')});
+  }
+
+  registerCallback(item){
+    this.setState({
+      showSignup: false,
+      alert : this.doAlert('signup_succ',item['message'])
+    });
+  }
+
+  doAlert(code,mess){
+    var result = null;
+    switch (code){
+      case 'signup_succ':
+        result = (
+          <SweetAlert success title="Register" onConfirm={this.hideAlert}>
+            {mess}
+          </SweetAlert>
+        )
+        break;
+    }
+    return result;
+  }
+
+  hideAlert(){
+    this.setState({
+      alert: null
+    });
   }
 
   signOut(){
@@ -105,7 +138,7 @@ class Home extends React.Component {
             </div>
             :
             <div id="actions">
-              <h3>Hello, {this.state.token}</h3>
+              <h3>Hello, {cookie.load('userName')}</h3>
               <div className="Homebtn">
                 <KasperBtn className="Homebtn" paddingVer="1rem" paddingHor="3rem"  text="To Dashboard" state="normal" onClick = {this.toDashboard}/>
               </div>
@@ -139,7 +172,8 @@ class Home extends React.Component {
         <Footer />
 
         <Login show={this.state.showLogin} onHide={this.closeLogin} callback={this.navigateLogin}/>
-        <Signup show={this.state.showSignup} onHide={this.closeSignUp} callback={this.navigateLogin}/>
+        <Signup show={this.state.showSignup} onHide={this.closeSignUp} callback={this.registerCallback}/>
+        {this.state.alert}
       </div>
 
     );

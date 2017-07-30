@@ -22,7 +22,7 @@ class AppComponent extends React.Component {
       <Router>
         <div>
           <Route exact path="/" component={Home}/>
-          <Route path="/user" component={UserPage}/>
+          <PrivateRoute path="/user" component={UserPage}/>
         </div>
       </Router>
     );
